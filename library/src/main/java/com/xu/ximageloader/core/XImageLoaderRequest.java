@@ -16,7 +16,9 @@ import com.xu.ximageloader.util.ImageViewHelper;
 import com.xu.ximageloader.util.Util;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Xu on 2016/10/17.
@@ -25,6 +27,11 @@ import java.util.concurrent.Executors;
 public final class XImageLoaderRequest {
 
     private final String TAG = "XImageLoaderRequest";
+    private static final int CPU_COUNT = Runtime.getRuntime()
+            .availableProcessors();
+    private static final int CORE_POOL_SIZE = CPU_COUNT + 1;
+    private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;
+    private static final long KEEP_ALIVE = 10L;
 
     private Context context;
     private ImageCache cache;
@@ -32,7 +39,6 @@ public final class XImageLoaderRequest {
     private ImageLoader loader;
     private String imageUrl;
     private boolean isCache;
-    private Executor mExecutor;
     private int loadingResId;
     private int failResId;
 
@@ -51,13 +57,16 @@ public final class XImageLoaderRequest {
         }
     };
 
+    public static final Executor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(
+            CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<Runnable>());
+
     public XImageLoaderRequest(Context context, XImageLoaderConfig config, ImageView imageView) {
         this.context = context;
         this.imageView = imageView;
         this.loader = config.getLoader();
         this.cache = config.getCache();
         this.isCache = config.isCache();
-        this.mExecutor = Executors.newSingleThreadExecutor();
         this.loadingResId = config.getLoadingResId();
         this.failResId = config.getFailResId();
     }
@@ -87,7 +96,7 @@ public final class XImageLoaderRequest {
             boolean mIsConn = Util.isConn(context);
             if (mIsConn) {
                 Task task = new Task(this);
-                mExecutor.execute(task);
+                THREAD_POOL_EXECUTOR.execute(task);
             } else {
                 if (hasFailResId()) {
                     imageView.setImageResource(failResId);
@@ -95,6 +104,7 @@ public final class XImageLoaderRequest {
                 Toast.makeText(context, "网络无法连通，请重试！", Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 
     public String getImageUrl() {

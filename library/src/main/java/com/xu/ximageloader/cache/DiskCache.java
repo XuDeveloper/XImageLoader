@@ -22,7 +22,7 @@ import libcore.io.DiskLruCache;
 
 public class DiskCache implements ImageCache {
 
-    private static final long DISK_CACHE_SIZE = 1024 * 1024 * 20;
+    private static final long DISK_CACHE_SIZE = 1024 * 1024 * 50;
 
     private DiskLruCache mDiskLruCache;
     private Context mContext;
@@ -57,6 +57,12 @@ public class DiskCache implements ImageCache {
                 } else {
                     editor.abort();
                 }
+//                OutputStream outputStream = editor.newOutputStream(0);
+//                if (FileUtils.downloadUrlToStream(request.getImageUrl(), outputStream)) {
+//                    editor.commit();
+//                } else {
+//                    editor.abort();
+//                }
                 Util.closeQuietly(outputStream);
             }
             mDiskLruCache.flush();

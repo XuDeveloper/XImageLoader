@@ -1,7 +1,6 @@
 package com.xu.ximageloader.cache;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.util.LruCache;
 
 import com.xu.ximageloader.core.XImageLoaderRequest;
@@ -29,17 +28,11 @@ public class MemoryCache implements ImageCache {
     public void put(XImageLoaderRequest request, Bitmap bitmap) {
         if (bitmap != null) {
             mMemoryCache.put(request.getImageUrl(), bitmap);
-            Log.i("memorycache-put", "key:" + request.getImageUrl() + "value:" + bitmap.toString());
         }
     }
 
     @Override
     public Bitmap get(XImageLoaderRequest request) {
-        if (mMemoryCache.get(request.getImageUrl()) != null) {
-            Log.i("memorycache-get", "key:" + request.getImageUrl() + "value:" + mMemoryCache.get(request.getImageUrl()).toString());
-        } else {
-            Log.i("memorycache-get", "key:" + request.getImageUrl() + "value:" + "null");
-        }
         return mMemoryCache.get(request.getImageUrl());
     }
 
