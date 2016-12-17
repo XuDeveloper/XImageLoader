@@ -1,1 +1,1 @@
-# XImageLoader
+# SimpleImageLoader
