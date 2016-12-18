@@ -6,14 +6,15 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Created by Xu on 2016/11/15.
@@ -22,6 +23,7 @@ import java.net.URL;
 public class FileUtils {
 
     private static final int IO_BUFFER_SIZE = 8 * 1024;
+    private static final int BUFFER_SIZE = 4 * 1024;
 
     public static File getDiskCacheDir(Context context, String uniqueName) {
         boolean externalStorageAvailable = Environment
@@ -46,7 +48,7 @@ public class FileUtils {
 
     public static boolean writeBitmapToDisk(Bitmap bitmap, OutputStream outputStream) {
         BufferedOutputStream bos = new BufferedOutputStream(outputStream, 8 * 1024);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos);
         boolean result = true;
         try {
             bos.flush();
@@ -59,17 +61,13 @@ public class FileUtils {
         return result;
     }
 
-    public static boolean downloadUrlToStream(String urlString,
+    public static boolean downloadUrlToStream(InputStream inputStream,
                                               OutputStream outputStream) {
-        HttpURLConnection urlConnection = null;
         BufferedOutputStream out = null;
         BufferedInputStream in = null;
 
         try {
-            final URL url = new URL(urlString);
-            urlConnection = (HttpURLConnection) url.openConnection();
-            in = new BufferedInputStream(urlConnection.getInputStream(),
-                    IO_BUFFER_SIZE);
+            in = new BufferedInputStream(inputStream, IO_BUFFER_SIZE);
             out = new BufferedOutputStream(outputStream, IO_BUFFER_SIZE);
 
             int b;
@@ -78,14 +76,23 @@ public class FileUtils {
             }
             return true;
         } catch (IOException e) {
-
+            Log.e("ximageloader", "downloadBitmap failed." + e);
         } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
             Util.closeQuietly(out);
             Util.closeQuietly(in);
         }
         return false;
+    }
+
+    public static byte[] inputstream2ByteArr(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buff = new byte[BUFFER_SIZE];
+        int len = 0;
+        while ((len = inputStream.read(buff)) != -1) {
+            byteArrayOutputStream.write(buff, 0, len);
+        }
+        Util.closeQuietly(inputStream);
+        Util.closeQuietly(byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 }

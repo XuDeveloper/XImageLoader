@@ -1,5 +1,6 @@
 package com.xu.ximageloader.core;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ImageView;
 
@@ -7,6 +8,7 @@ import com.xu.ximageloader.cache.DiskCache;
 import com.xu.ximageloader.cache.DoubleCache;
 import com.xu.ximageloader.cache.ImageCache;
 import com.xu.ximageloader.cache.MemoryCache;
+import com.xu.ximageloader.util.Util;
 
 /**
  * Created by Xu on 2016/10/17.
@@ -18,6 +20,10 @@ public class XImageLoader {
 
     private XImageLoader(Context context) {
         mContext = context;
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        Util.verifyStoragePermissions(activity);
     }
 
     public static XImageLoader build(Context context) {

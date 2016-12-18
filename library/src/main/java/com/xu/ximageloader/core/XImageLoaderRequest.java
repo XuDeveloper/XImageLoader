@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -52,7 +53,6 @@ public final class XImageLoaderRequest {
                 if (hasFailResId()) {
                     imageView.setImageResource(failResId);
                 }
-                Toast.makeText(context, "网络加载失败，请重试！", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -92,6 +92,7 @@ public final class XImageLoaderRequest {
         }
         if (mBitmap != null) {
             imageView.setImageBitmap(mBitmap);
+            return;
         } else {
             boolean mIsConn = Util.isConn(context);
             if (mIsConn) {
@@ -101,7 +102,9 @@ public final class XImageLoaderRequest {
                 if (hasFailResId()) {
                     imageView.setImageResource(failResId);
                 }
-                Toast.makeText(context, "网络无法连通，请重试！", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Connection is not available, please retry!");
+                Toast.makeText(context, "网络连接失败，请重试！", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
 
@@ -160,7 +163,7 @@ public final class XImageLoaderRequest {
         @Override
         public void run() {
             Bitmap mBitmap = getBitmap();
-            Message message = new Message();
+            Message message = Message.obtain();
             message.obj = mBitmap;
             mMainHandler.sendMessage(message);
         }

@@ -45,8 +45,6 @@ public class DemoSecondActivity extends AppCompatActivity implements AbsListView
 
     private void initDatas() {
         mIsGridViewIdle = true;
-
-
         urls = new ArrayList<>();
         String[] imageUrls = {
                 "http://b.hiphotos.baidu.com/zhidao/pic/item/a6efce1b9d16fdfafee0cfb5b68f8c5495ee7bd8.jpg",
@@ -84,7 +82,7 @@ public class DemoSecondActivity extends AppCompatActivity implements AbsListView
                 "http://img3.3lian.com/2013/c2/32/d/101.jpg",
                 "http://pic25.nipic.com/20121210/7447430_172514301000_2.jpg",
                 "http://img02.tooopen.com/images/20140320/sy_57121781945.jpg",
-                "http://www.renyugang.cn/emlog/content/plugins/kl_album/upload/201004/852706aad6df6cd839f1211c358f2812201004120651068641.jpg" };
+                "file:///sdcard/Pictures/123.jpg" };
         for (String url : imageUrls) {
             urls.add(url);
         }

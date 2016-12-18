@@ -12,7 +12,7 @@ import com.xu.ximageloader.core.XImageLoader;
 
 public class DemoFirstActivity extends AppCompatActivity {
 
-    // TODO: 2016/12/18  1.解决oom问题！
+    // TODO: 2016/12/18  1.效率问题！ 2.同步加载和异步加载接口
 
     private ImageView mImageView1;
     private ImageView mImageView2;
@@ -23,6 +23,8 @@ public class DemoFirstActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+
+        XImageLoader.verifyStoragePermissions(this);
 
         mImageView1 = (ImageView) findViewById(R.id.image1);
         mImageView2 = (ImageView) findViewById(R.id.image2);

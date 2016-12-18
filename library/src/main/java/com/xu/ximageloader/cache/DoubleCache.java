@@ -28,11 +28,13 @@ public class DoubleCache implements ImageCache {
     @Override
     public Bitmap get(XImageLoaderRequest request) {
         Bitmap bitmap = mMemoryCache.get(request);
-        if (bitmap == null) {
-            bitmap = mDiskCache.get(request);
-        }
         if (bitmap != null) {
-            saveBitmapIntoMemory(request, bitmap);
+            return bitmap;
+        } else {
+            bitmap = mDiskCache.get(request);
+            if (bitmap != null) {
+                saveBitmapIntoMemory(request, bitmap);
+            }
         }
         return bitmap;
     }

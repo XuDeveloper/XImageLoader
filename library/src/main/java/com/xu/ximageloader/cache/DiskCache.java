@@ -44,32 +44,35 @@ public class DiskCache implements ImageCache {
 
     @Override
     public void put(XImageLoaderRequest request, Bitmap bitmap) {
-        DiskLruCache.Editor editor = null;
-        try {
-            String imageUrlMd5 = Util.hashKeyForDisk(request.getImageUrl());
-            editor = mDiskLruCache.edit(imageUrlMd5);
-            if (editor != null) {
-                OutputStream outputStream = editor.newOutputStream(0);
-                if (FileUtils.writeBitmapToDisk(bitmap, outputStream)) {
-                    // 写入disk缓存
-                    Log.i("diskcache-put", "write in disk");
-                    editor.commit();
-                } else {
-                    editor.abort();
+        if (bitmap != null) {
+            DiskLruCache.Editor editor = null;
+            try {
+                String imageUrlMd5 = Util.hashKeyForDisk(request.getImageUrl());
+                editor = mDiskLruCache.edit(imageUrlMd5);
+                if (editor != null) {
+                    OutputStream outputStream = editor.newOutputStream(0);
+                    if (FileUtils.writeBitmapToDisk(bitmap, outputStream)) {
+                        // 写入disk缓存
+                        Log.i("diskcache-put", "write in disk");
+                        editor.commit();
+                    } else {
+                        editor.abort();
+                    }
+//                if (editor != null) {
+//                    OutputStream outputStream = editor.newOutputStream(0);
+//                    if (FileUtils.downloadUrlToStream(request.getInputStream(), outputStream)) {
+//                        editor.commit();
+//                    } else {
+//                        editor.abort();
+//                    }
+//                    Util.closeQuietly(outputStream);
                 }
-//                OutputStream outputStream = editor.newOutputStream(0);
-//                if (FileUtils.downloadUrlToStream(request.getImageUrl(), outputStream)) {
-//                    editor.commit();
-//                } else {
-//                    editor.abort();
-//                }
-                Util.closeQuietly(outputStream);
+                mDiskLruCache.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            mDiskLruCache.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Log.i("diskcache-put", "key:" + Util.hashKeyForDisk(request.getImageUrl()) + " value:" + bitmap.toString());
         }
-        Log.i("diskcache-put", "key:" + Util.hashKeyForDisk(request.getImageUrl()) + " value:" + bitmap.toString());
     }
 
     @Override
@@ -82,6 +85,11 @@ public class DiskCache implements ImageCache {
             if (snapShot != null) {
                 is = snapShot.getInputStream(0);
                 bitmap = BitmapFactory.decodeStream(is);
+            }
+            if (bitmap != null) {
+                Log.i("diskcache-get", "key:" + Util.hashKeyForDisk(request.getImageUrl()) + " value:" + bitmap.toString());
+            } else {
+                Log.i("diskcache-get", "key:" + Util.hashKeyForDisk(request.getImageUrl()) + " value: null");
             }
             return bitmap;
         } catch (IOException e) {

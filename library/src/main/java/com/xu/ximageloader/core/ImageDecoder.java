@@ -43,8 +43,6 @@ public abstract class ImageDecoder {
                 inSampleSize *= 2;
             }
         }
-
-        Log.d(TAG, "sampleSize:" + inSampleSize);
         return inSampleSize;
     }
 
