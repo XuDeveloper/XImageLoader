@@ -32,11 +32,16 @@ public class DemoFirstActivity extends AppCompatActivity {
         mButton = (Button) findViewById(R.id.button);
 
         // Default
-        XImageLoader.build(this).imageview(mImageView1).load("http://artimg.chefafa.com/upload/Image/20161027/1477530825513283.jpg");
-        // Use memorycache, without diskcache
-        XImageLoader.build(this).imageview(true, false, mImageView2).load("http://tupian.enterdesk.com/2013/lxy/09/28/2/8.jpg");
+        XImageLoader.build(this).imageview(mImageView1).asyncLoad("http://artimg.chefafa.com/upload/Image/20161027/1477530825513283.jpg");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Use memorycache, without diskcache
+                XImageLoader.build(DemoFirstActivity.this).imageview(true, false, mImageView2).load("http://tupian.enterdesk.com/2013/lxy/09/28/2/8.jpg");
+            }
+        }).start();
         // Use doublecache
-        XImageLoader.build(this).imageview(true, mImageView3).load("http://artimg.chefafa.com/upload/Image/20161027/1477530837865270.jpg");
+        XImageLoader.build(this).imageview(true, mImageView3).asyncLoad("http://artimg.chefafa.com/upload/Image/20161027/1477530837865270.jpg");
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override

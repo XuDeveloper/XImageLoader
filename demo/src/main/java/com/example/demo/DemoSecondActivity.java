@@ -150,7 +150,7 @@ public class DemoSecondActivity extends AppCompatActivity implements AbsListView
             ImageView imageView = holder.imageView;
             String url = getItem(position);
             if (mIsGridViewIdle) {
-                XImageLoader.build(DemoSecondActivity.this).imageview(config, imageView).load(url);
+                XImageLoader.build(DemoSecondActivity.this).imageview(config, imageView).asyncLoad(url);
             }
             return convertView;
         }
