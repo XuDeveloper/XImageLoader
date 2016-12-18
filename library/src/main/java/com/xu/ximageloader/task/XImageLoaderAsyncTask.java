@@ -65,8 +65,7 @@ public final class XImageLoaderAsyncTask {
             request.getImageView().setImageResource(request.getLoadingResId());
         }
         if (config.getLoader() == null) {
-            String schema = Util.parseSchema(request.getImageUrl());
-            config.setLoader(LoaderFactory.getInstance().getLoader(schema));
+            config.setLoader(LoaderFactory.getInstance().getLoader(request.getImageUrl()));
         }
         boolean mIsConn = Util.isConn(context);
         if (mIsConn) {

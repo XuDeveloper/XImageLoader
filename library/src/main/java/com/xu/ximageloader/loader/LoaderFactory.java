@@ -1,5 +1,7 @@
 package com.xu.ximageloader.loader;
 
+import com.xu.ximageloader.util.Util;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +16,7 @@ public class LoaderFactory {
     public static final String FILE = "file";
 
     private Map<String, ImageLoader> loaderMap = new HashMap<>();
-
     private static LoaderFactory INSTANCE;
-
     private NullImageLoader mNullLoader;
 
     private LoaderFactory() {
@@ -37,11 +37,12 @@ public class LoaderFactory {
         return INSTANCE;
     }
 
-    public final synchronized void register(String schema, ImageLoader loader) {
+    private final synchronized void register(String schema, ImageLoader loader) {
         loaderMap.put(schema, loader);
     }
 
-    public ImageLoader getLoader(String schema) {
+    public ImageLoader getLoader(String imageUrl) {
+        String schema = Util.parseSchema(imageUrl);
         if (loaderMap.containsKey(schema)) {
             return loaderMap.get(schema);
         }
