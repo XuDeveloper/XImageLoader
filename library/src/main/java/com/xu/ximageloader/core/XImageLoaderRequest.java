@@ -2,8 +2,10 @@ package com.xu.ximageloader.core;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
+import com.xu.ximageloader.config.XImageLoaderConfig;
 import com.xu.ximageloader.task.XImageLoaderAsyncTask;
 import com.xu.ximageloader.task.XImageLoaderSynTask;
 import com.xu.ximageloader.util.ImageViewHelper;
@@ -62,11 +64,19 @@ public final class XImageLoaderRequest {
         return false;
     }
 
-    public void load(String imageUrl) {
+    public Bitmap getBitmap(String imageUrl) {
         if (!check(imageUrl)) {
             XImageLoaderSynTask task = new XImageLoaderSynTask(context, this, config);
-            task.load();
+            if (task.load() != null) {
+                return task.load();
+            } else {
+                if (hasFailResId()) {
+                    return BitmapFactory.decodeResource(context.getResources(), config.getFailResId());
+                }
+            }
         }
+        return null;
+
 //        if (loader == null) {
 //            String schema = Util.parseSchema(imageUrl);
 //            loader = LoaderFactory.getInstance().getLoader(schema);
@@ -94,7 +104,7 @@ public final class XImageLoaderRequest {
 
     }
 
-    public void asyncLoad(String imageUrl) {
+    public void load(String imageUrl) {
         if(!check(imageUrl)) {
             XImageLoaderAsyncTask task = new XImageLoaderAsyncTask(context, this, config);
             task.load();

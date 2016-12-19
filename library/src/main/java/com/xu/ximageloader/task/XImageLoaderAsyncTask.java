@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.xu.ximageloader.cache.DoubleCache;
-import com.xu.ximageloader.core.XImageLoaderConfig;
+import com.xu.ximageloader.config.XImageLoaderConfig;
 import com.xu.ximageloader.core.XImageLoaderRequest;
 import com.xu.ximageloader.loader.LoaderFactory;
 import com.xu.ximageloader.util.Util;

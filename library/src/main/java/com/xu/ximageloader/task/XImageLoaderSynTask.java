@@ -7,7 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.xu.ximageloader.cache.MemoryCache;
-import com.xu.ximageloader.core.XImageLoaderConfig;
+import com.xu.ximageloader.config.XImageLoaderConfig;
 import com.xu.ximageloader.core.XImageLoaderRequest;
 import com.xu.ximageloader.loader.LoaderFactory;
 import com.xu.ximageloader.util.Util;
@@ -30,7 +30,7 @@ public final class XImageLoaderSynTask{
         this.config = config;
     }
 
-    public void load() {
+    public Bitmap load() {
         if (hasLoadingResId()) {
             request.getImageView().setImageResource(request.getLoadingResId());
         }
@@ -42,13 +42,11 @@ public final class XImageLoaderSynTask{
             if (Looper.myLooper() == Looper.getMainLooper()) {
                 throw new RuntimeException("can not visit network from UI Thread.");
             }
-            request.getImageView().setImageBitmap(getBitmap());
+            return getBitmap();
         } else {
-            if (hasFailResId()) {
-                request.getImageView().setImageResource(request.getFailResId());
-            }
             Log.e(TAG, "Connection is not available, please retry!");
             Toast.makeText(context, "网络连接失败，请重试！", Toast.LENGTH_SHORT).show();
+            return null;
         }
     }
 

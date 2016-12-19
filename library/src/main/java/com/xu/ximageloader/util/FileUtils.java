@@ -47,8 +47,8 @@ public class FileUtils {
     }
 
     public static boolean writeBitmapToDisk(Bitmap bitmap, OutputStream outputStream) {
-        BufferedOutputStream bos = new BufferedOutputStream(outputStream, 8 * 1024);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+        BufferedOutputStream bos = new BufferedOutputStream(outputStream, 15 * 1024);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, bos);
         boolean result = true;
         try {
             bos.flush();

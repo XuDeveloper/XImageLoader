@@ -47,7 +47,9 @@ public class InternetImageLoader implements ImageLoader {
             Log.e(TAG, "loading failed, url:" + request.getImageUrl() + "reason:" + e.getMessage());
         } finally {
             Util.closeQuietly(is);
-            conn.disconnect();
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
         return null;
     }

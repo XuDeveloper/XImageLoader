@@ -8,6 +8,7 @@ import com.xu.ximageloader.cache.DiskCache;
 import com.xu.ximageloader.cache.DoubleCache;
 import com.xu.ximageloader.cache.ImageCache;
 import com.xu.ximageloader.cache.MemoryCache;
+import com.xu.ximageloader.config.XImageLoaderConfig;
 import com.xu.ximageloader.util.Util;
 
 /**

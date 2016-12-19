@@ -1,4 +1,4 @@
-package com.xu.ximageloader.core;
+package com.xu.ximageloader.config;
 
 import com.xu.ximageloader.cache.ImageCache;
 import com.xu.ximageloader.loader.ImageLoader;
