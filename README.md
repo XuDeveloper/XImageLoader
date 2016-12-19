@@ -75,6 +75,26 @@ You can choose whether to use cache or not, or customize your own config(using X
 
 ```
 
+You need to set the permissions in AndroidManifest.xml:
+
+```xml
+
+	<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+```
+
+If you use a Android 6.0 device or more, you need to set permissions dynamically:
+
+```java
+
+	XImageLoader.verifyStoragePermissions(activity);
+
+```
+
+
 ##**License**
 
 ```license

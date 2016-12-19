@@ -74,6 +74,26 @@
 
 ```
 
+你需要AndroidManifest.xml中设置权限:
+
+```xml
+
+	<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+```
+
+如果你使用的是Android 6.0以上的设备，你需要动态设置权限：
+
+```java
+
+	XImageLoader.verifyStoragePermissions(activity);
+
+```
+
+
 ##**协议**
 
 ```license
