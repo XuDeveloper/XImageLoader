@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.xu.ximageloader.cache.DoubleCache;
+import com.xu.ximageloader.core.OkhttpImageLoader;
 import com.xu.ximageloader.core.XImageLoader;
 import com.xu.ximageloader.config.XImageLoaderConfig;
 
@@ -40,6 +41,7 @@ public class DemoSecondActivity extends AppCompatActivity implements AbsListView
         // config settings
         config = new XImageLoaderConfig();
         config.setCache(new DoubleCache(DemoSecondActivity.this));
+        config.setLoader(new OkhttpImageLoader());
         config.setLoadingResId(R.drawable.image_loading);
         config.setFailResId(R.drawable.image_fail);
     }

@@ -6,7 +6,6 @@ import android.widget.ImageView;
 
 import com.xu.ximageloader.cache.DiskCache;
 import com.xu.ximageloader.cache.DoubleCache;
-import com.xu.ximageloader.cache.ImageCache;
 import com.xu.ximageloader.cache.MemoryCache;
 import com.xu.ximageloader.config.XImageLoaderConfig;
 import com.xu.ximageloader.util.Util;
@@ -47,15 +46,6 @@ public class XImageLoader {
         }
         if (isMemoryCache && isDiskCache) {
             config.setCache(new DoubleCache(mContext));
-        }
-        return new XImageLoaderRequest(mContext, config, imageView);
-    }
-
-    public XImageLoaderRequest imageview(ImageCache cache, ImageView imageView) {
-        XImageLoaderConfig config = new XImageLoaderConfig();
-        if (cache != null) {
-            config.setIsCache(true);
-            config.setCache(cache);
         }
         return new XImageLoaderRequest(mContext, config, imageView);
     }

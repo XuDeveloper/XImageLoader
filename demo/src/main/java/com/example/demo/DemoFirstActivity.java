@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,7 +20,14 @@ public class DemoFirstActivity extends AppCompatActivity {
     private ImageView mImageView2;
     private ImageView mImageView3;
     private Button mButton;
-    private Bitmap mBitmap;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Bitmap bitmap = (Bitmap) msg.obj;
+            mImageView2.setImageBitmap(bitmap);
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,10 +50,12 @@ public class DemoFirstActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mBitmap = XImageLoader.build(DemoFirstActivity.this).imageview(true, false, mImageView2).getBitmap("http://img4.imgtn.bdimg.com/it/u=736732793,2989478129&fm=11&gp=0.jpg");
+                Bitmap bitmap = XImageLoader.build(DemoFirstActivity.this).imageview(true, false, mImageView2).getBitmap("http://img4.imgtn.bdimg.com/it/u=736732793,2989478129&fm=11&gp=0.jpg");
+                Message message = Message.obtain();
+                message.obj = bitmap;
+                mHandler.sendMessage(message);
             }
         }).start();
-        mImageView2.setImageBitmap(mBitmap);
 
         // 3.Use doublecache
         XImageLoader.build(this).imageview(true, mImageView3).load("http://artimg.chefafa.com/upload/Image/20161027/1477530837865270.jpg");

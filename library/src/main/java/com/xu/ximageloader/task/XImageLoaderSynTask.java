@@ -31,9 +31,6 @@ public final class XImageLoaderSynTask{
     }
 
     public Bitmap load() {
-        if (hasLoadingResId()) {
-            request.getImageView().setImageResource(request.getLoadingResId());
-        }
         if (config.getLoader() == null) {
             config.setLoader(LoaderFactory.getInstance().getLoader(request.getImageUrl()));
         }
@@ -59,14 +56,5 @@ public final class XImageLoaderSynTask{
         config.getCache().put(request, mBitmap);
         return mBitmap;
     }
-
-    private boolean hasLoadingResId() {
-        return request.getLoadingResId() != -1;
-    }
-
-    private boolean hasFailResId() {
-        return request.getFailResId() != -1;
-    }
-
 
 }

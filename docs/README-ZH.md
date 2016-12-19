@@ -1,23 +1,22 @@
 # XImageLoader
 
-[中文版](https://github.com/XuDeveloper/XImageLoader/blob/master/docs/README-ZH.md)
+[English Version](https://github.com/XuDeveloper/XImageLoader/blob/master/README.md)
 
-It's a custom image-loading repository for Android.
+这是一个Android的自定义图片加载库。
 
-You can use XImageLoader to load images from Internet or local files.By default it uses a HTTPUrlConnection to download images but you can also use OkhttpImageLoader instead or customize your own imageloader because it provides a interface.
+你可以使用XImageLoader去加载网络上的或者本地的图片。它默认使用HttpUrlConnection去下载网络图片，你也可以使用库中已实现的OkhttpImageLoader或者自定义你的ImageLoader因为这个库提供了接口。
 
-Notice:This is a repository for people who want to learn more knowledge about the image loading and caching.It is not recommended for use in actual projects!
+注意：这是一个用于学习图片加载与缓存的库，不推荐使用在实际项目之中！
 
-If you want to improve it, please fork it and pull requests to me!
+如果你想改进这个库，欢迎fork这个项目然后pull request！
 
-If you like it, please star it or follow me!Thank you!
-
-### Integration
+如果你喜欢这个库，请给它一个star或者关注我！谢谢！
+ 
+### 导入
 
 #### Android Studio
 
-```xml
-
+``` xml
   allprojects {
 		repositories {
 			...
@@ -30,34 +29,34 @@ If you like it, please star it or follow me!Thank you!
   }
 
 ```
-
 #### Eclipse
 
-> Maybe you can copy my code to your project!
+> 可以复制我的源码到你的项目中！
 
-### Usage
+### 使用
 
-Default usage:
+默认用法：
 
 ``` java
 
-	// Asynchronous call
+	// 异步接口调用
     XImageLoader.build(context).imageview(ImageView).load(imageUrl);
-	// load local file，you need to use the format like "file:///address"
+	// 加载本地文件，你需要使用这样的格式："file:///address"
 	XImageLoader.build(context).imageview(ImageView).load("file:///address");
 
 ```
 
-or
+或者：
 
 ```java
 
-	// Synchronous call(should use it in a new thread)
+	// 同步接口调用(需要运行在一条新线程中)
 	Bitmap bitmap = XImageLoader.build(context).imageview(ImageView).getBitmap(imageUrl);
 
 ```
 
-You can choose whether to use cache or not, or customize your own config(using XImageLoaderConfig):
+你可以选择是否缓存或者自定义（使用XImageLoaderConfig）：
+
 
 ```java
 
@@ -65,7 +64,7 @@ You can choose whether to use cache or not, or customize your own config(using X
 
 	XImageLoader.build(context).imageview(isDoubleCache, ImageView).load(imageUrl);
 	
-	// config settings
+	// 具体配置
     XImageLoaderConfig config = new XImageLoaderConfig();
     config.setCache(new DoubleCache(context));
     config.setLoader(new OkhttpImageLoader());
@@ -75,7 +74,7 @@ You can choose whether to use cache or not, or customize your own config(using X
 
 ```
 
-##**License**
+##**协议**
 
 ```license
 Copyright [2016] XuDeveloper
@@ -92,3 +91,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
